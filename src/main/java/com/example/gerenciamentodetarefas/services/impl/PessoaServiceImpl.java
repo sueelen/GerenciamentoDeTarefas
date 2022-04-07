@@ -1,22 +1,26 @@
 package com.example.gerenciamentodetarefas.services.impl;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import com.example.gerenciamentodetarefas.entities.Pessoa;
+import com.example.gerenciamentodetarefas.repositories.PessoaRepository;
 import com.example.gerenciamentodetarefas.services.PessoaService;
+import lombok.RequiredArgsConstructor;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+@Component
+@RequiredArgsConstructor
 public class PessoaServiceImpl implements PessoaService {
-    
+	
+    private final PessoaRepository pessoaRepository;
+
+	@Override
+	public Pessoa salvar(Pessoa pessoa) {
+		return pessoaRepository.save(pessoa);
+	}
+
+	@Override
+	public void deletar(Long id) {
+		pessoaRepository.deleteById(id);
+	}
+	 
 }

@@ -30,7 +30,7 @@ public class Tarefa {
     @Column(name="descricao", length=1000, nullable=false)
 	private String descricao;
     
-    @Temporal(TemporalType.DATE)
+    @Column(name = "prazo", columnDefinition = "DATE")
     private LocalDate prazo;
     
     @ManyToOne
