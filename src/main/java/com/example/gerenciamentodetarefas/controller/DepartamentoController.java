@@ -3,7 +3,6 @@ package com.example.gerenciamentodetarefas.controller;
 import java.util.List;
 
 import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
