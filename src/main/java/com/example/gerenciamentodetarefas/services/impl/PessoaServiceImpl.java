@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.example.gerenciamentodetarefas.entities.Pessoa;
 import com.example.gerenciamentodetarefas.exceptions.PessoaNotFoundException;
 import com.example.gerenciamentodetarefas.repositories.PessoaRepository;
+import com.example.gerenciamentodetarefas.services.DepartamentoService;
 import com.example.gerenciamentodetarefas.services.PessoaService;
 import lombok.RequiredArgsConstructor;
 
@@ -14,15 +15,18 @@ import lombok.RequiredArgsConstructor;
 public class PessoaServiceImpl implements PessoaService {
 	
     private final PessoaRepository pessoaRepository;
+    private final DepartamentoService departamentoService;
 
 	@Override
 	public Pessoa salvar(Pessoa pessoa) {
+		pessoa.setDepartamento(departamentoService.consultarDepartamento(pessoa.getDepartamento().getId()));
 		return pessoaRepository.save(pessoa);
 	}
 
 	@Override
 	public void deletar(Long id) {
-		pessoaRepository.deleteById(id);
+		Pessoa pessoa = consultarPessoa(id);
+		pessoaRepository.delete(pessoa);;
 	}
 
 	@Override

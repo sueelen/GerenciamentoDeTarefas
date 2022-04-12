@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 import com.example.gerenciamentodetarefas.entities.Departamento;
+import com.example.gerenciamentodetarefas.exceptions.DepartamentoNotFoundException;
 import com.example.gerenciamentodetarefas.repositories.DepartamentoRepository;
 import com.example.gerenciamentodetarefas.services.DepartamentoService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,10 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	@Override
 	public Departamento consultarDepartamento(Integer idDepartamento) {
 		Optional<Departamento> departamentoOpt = departamentoRepository.findById(idDepartamento);
-		return departamentoOpt.isPresent() ? departamentoOpt.get() : null;
+		if(departamentoOpt.isPresent()) {
+			return departamentoOpt.get();
+		}
+		throw new DepartamentoNotFoundException();
 	}
 
 	@Override

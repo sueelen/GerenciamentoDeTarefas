@@ -11,6 +11,7 @@ import com.example.gerenciamentodetarefas.entities.Tarefa;
 import com.example.gerenciamentodetarefas.exceptions.DepartamentoNaoCompativelException;
 import com.example.gerenciamentodetarefas.exceptions.TarefaNotFoundException;
 import com.example.gerenciamentodetarefas.repositories.TarefaRepository;
+import com.example.gerenciamentodetarefas.services.DepartamentoService;
 import com.example.gerenciamentodetarefas.services.PessoaService;
 import com.example.gerenciamentodetarefas.services.TarefaService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,11 @@ public class TarefaServiceImpl implements TarefaService {
 	
 	private final TarefaRepository tarefaRepository;
 	private final PessoaService pessoaService;
+	private final DepartamentoService departamentoService;
 
 	@Override
 	public Tarefa salvar(Tarefa tarefa) {
+		tarefa.setDepartamento(departamentoService.consultarDepartamento(tarefa.getDepartamento().getId()));
 		return tarefaRepository.save(tarefa);
 	}
 
@@ -34,7 +37,7 @@ public class TarefaServiceImpl implements TarefaService {
 			tarefaOptional.get().setFinalizado(true);
 			return salvar(tarefaOptional.get());
 		}
-		return null;
+		throw new TarefaNotFoundException();
 	}
 
 	@Override
@@ -50,7 +53,7 @@ public class TarefaServiceImpl implements TarefaService {
 				return salvar(tarefaOptional.get());
 			}
 			else {
-				throw new DepartamentoNaoCompativelException();
+				throw new DepartamentoNaoCompativelException("A pessoa informada não pertence ao departamento da tarefa.");
 			}
 		}
 		else {

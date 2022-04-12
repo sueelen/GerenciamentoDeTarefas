@@ -43,10 +43,12 @@ public class Pessoa {
     @ManyToMany(mappedBy = "pessoas")
     private List<Tarefa> listaDeTarefas;
     
+	@JsonIgnore
     public Long getToralHorasGastasTarefas() {
     	return listaDeTarefas.stream().mapToLong(tarefa -> tarefa.getFinalizado() ? tarefa.getDuracao() : 0).sum();
     }
     
+	@JsonIgnore
     public Double getMediaHorasGastasTarefasPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
     	OptionalDouble mediaOptional = listaDeTarefas.stream().mapToLong(tarefa ->
     	(tarefa.getPrazo().isEqual(dataInicio) || tarefa.getPrazo().isAfter(dataInicio)) &&

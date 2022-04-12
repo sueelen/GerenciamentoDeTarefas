@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,8 +51,10 @@ public class PessoaController {
 	@GetMapping("/gastos")
 	public ResponseEntity<List<PessoaGastosResponse>> consultarMediaHorasGastasPorNomeEPeriodo(
 		@RequestParam(required = true) @NotBlank(message = "O campo nome deve ser preenchido!") @Valid String nome,
-		@RequestParam(required = true) @NotNull(message = "O campo dataInicial deve ser preenchido!") @Valid LocalDate dataInicial,
-		@RequestParam(required = true) @NotNull(message = "O campo dataFim deve ser preenchido!") @Valid LocalDate dataFim){
+		@RequestParam(required = true) @NotNull(message = "O campo dataInicial deve ser preenchido!")
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Valid LocalDate dataInicial,
+		@RequestParam(required = true) @NotNull(message = "O campo dataFim deve ser preenchido!")
+			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Valid LocalDate dataFim){
 		return ResponseEntity.ok(pessoaResponseConverter.convertToPessoaGastosResponseList(pessoaService.consultarPessoasPorNome(nome), dataInicial, dataFim));
 	}
 	
