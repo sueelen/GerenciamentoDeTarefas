@@ -4,6 +4,7 @@ package com.example.gerenciamentodetarefas.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import com.example.gerenciamentodetarefas.entities.Pessoa;
 import com.example.gerenciamentodetarefas.entities.Tarefa;
@@ -59,6 +60,6 @@ public class TarefaServiceImpl implements TarefaService {
 
 	@Override
 	public List<Tarefa> consultarMaisAntigasSemPessoaAlocada(Integer qtdeRegistros) {
-		return tarefaRepository.findMaisAntigasSemPessoasAlocadas(qtdeRegistros);
+		return tarefaRepository.findByPessoasIsEmptyOrderByPrazo(Pageable.ofSize(qtdeRegistros));
 	}
 }
